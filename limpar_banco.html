@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠️ Ferramenta de Limpeza de Dados</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-red-50 text-gray-800 flex items-center justify-center min-h-screen">
+
+    <div class="bg-white p-8 rounded-xl shadow-2xl max-w-lg w-full text-center border-4 border-red-100">
+        <div class="mb-6">
+            <span class="text-6xl">🧹</span>
+        </div>
+        <h1 class="text-3xl font-bold text-red-600 mb-2">Limpeza do Banco de Dados</h1>
+        <p class="text-gray-600 mb-6">Esta ferramenta irá apagar <strong>TODOS</strong> os check-ins de todos os participantes, <span class="font-bold text-black underline">exceto</span> os registros do dia <strong class="text-teal-600">01/12/2025</strong>.</p>
+
+        <div id="status-log" class="text-left text-sm bg-gray-900 text-green-400 p-4 rounded-lg mb-6 h-48 overflow-y-auto font-mono hidden">
+            <!-- Logs aparecerão aqui -->
+        </div>
+
+        <button id="btn-limpar" class="w-full bg-red-600 text-white font-bold py-4 px-6 rounded-lg hover:bg-red-700 transition-colors shadow-lg text-lg">
+            ⚠️ LIMPAR DADOS AGORA
+        </button>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // --- MESMA CONFIGURAÇÃO DO SEU APP ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyCzVuw8VwY2e0qr1DngYQdp4En5je4HmyI",
+            authDomain: "desafio-explorar-vizinhanca.firebaseapp.com",
+            projectId: "desafio-explorar-vizinhanca",
+            storageBucket: "desafio-explorar-vizinhanca.firebasestorage.app",
+            messagingSenderId: "535102451702",
+            appId: "1:535102451702:web:b626d741c44952c78da1d7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const appId = 'desafio-saude-v2'; // O ID do seu banco atual
+        const targetDate = '2025-12-01'; // A data que será preservada
+
+        const logElement = document.getElementById('status-log');
+        const btnLimpar = document.getElementById('btn-limpar');
+
+        function log(msg) {
+            logElement.classList.remove('hidden');
+            const div = document.createElement('div');
+            div.textContent = `> ${msg}`;
+            logElement.appendChild(div);
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+
+        btnLimpar.addEventListener('click', async () => {
+            if (!confirm("TEM CERTEZA? Isso apagará dados permanentemente.")) return;
+            
+            btnLimpar.disabled = true;
+            btnLimpar.classList.add('opacity-50', 'cursor-not-allowed');
+            btnLimpar.textContent = "Limpando...";
+
+            try {
+                log("Conectando ao Firebase...");
+                await signInAnonymously(auth);
+                log("Autenticado.");
+
+                const collectionRef = collection(db, `artifacts/${appId}/public/data/healthChallenge`);
+                const snapshot = await getDocs(collectionRef);
+
+                if (snapshot.empty) {
+                    log("Nenhum participante encontrado.");
+                    return;
+                }
+
+                log(`Encontrados ${snapshot.size} participantes. Iniciando varredura...`);
+
+                let totalDeleted = 0;
+
+                for (const document of snapshot.docs) {
+                    const participantName = document.id;
+                    const data = document.data();
+                    let modified = false;
+                    let deletedForUser = 0;
+
+                    if (data.dailyLogs) {
+                        const dates = Object.keys(data.dailyLogs);
+                        
+                        dates.forEach(dateKey => {
+                            if (dateKey !== targetDate) {
+                                delete data.dailyLogs[dateKey];
+                                modified = true;
+                                deletedForUser++;
+                            }
+                        });
+                    }
+
+                    if (modified) {
+                        // Atualiza o documento no banco
+                        await setDoc(doc(db, `artifacts/${appId}/public/data/healthChallenge`, participantName), data);
+                        log(`[${participantName}] ${deletedForUser} registros apagados.`);
+                        totalDeleted += deletedForUser;
+                    } else {
+                        log(`[${participantName}] Nada a limpar.`);
+                    }
+                }
+
+                log("--------------------------------");
+                log(`CONCLUÍDO! Total de dias apagados: ${totalDeleted}`);
+                log(`Os dados de ${targetDate} foram mantidos.`);
+                alert("Limpeza concluída com sucesso!");
+
+            } catch (error) {
+                console.error(error);
+                log(`ERRO CRÍTICO: ${error.message}`);
+                alert("Ocorreu um erro. Verifique o log.");
+            } finally {
+                btnLimpar.textContent = "Limpeza Finalizada";
+            }
+        });
+    </script>
+</body>
+</html>
