@@ -187,15 +187,15 @@
                                     </div>
                                     <div class="flex items-center p-1">
                                         <input id="clean-no-soda" type="checkbox" class="h-5 w-5 rounded border-gray-300 text-teal-600 focus:ring-teal-500">
-                                        <label for="clean-no-soda" class="ml-2">Zero Bebidas Açucaradas/Alcólicas</label>
+                                        <label for="clean-no-soda" class="ml-2">Zero Bebidas Açucaradas e Alcólicas (refris, energéticos...)</label>
                                     </div>
                                     <div class="flex items-center p-1">
                                         <input id="clean-no-fastfood" type="checkbox" class="h-5 w-5 rounded border-gray-300 text-teal-600 focus:ring-teal-500">
-                                        <label for="clean-no-fastfood" class="ml-2">Zero Fast Food</label>
+                                        <label for="clean-no-fastfood" class="ml-2">Zero Fast Food (Mc, BK, Cachorro Quente...)</label>
                                     </div>
                                     <div class="flex items-center p-1">
                                         <input id="clean-no-fried" type="checkbox" class="h-5 w-5 rounded border-gray-300 text-teal-600 focus:ring-teal-500">
-                                        <label for="clean-no-fried" class="ml-2">Zero Comidas Gordurosas/Frituras</label>
+                                        <label for="clean-no-fried" class="ml-2">Zero Comidas Gordurosas (salgados, frituras...)</label>
                                     </div>
                                 </div>
                             </div>
@@ -281,7 +281,7 @@
                          </thead>
                          <tbody>
                             <tr class="bg-gray-200"><td class="p-2 font-semibold" colspan="2">Meta Aeróbica (Semanal)</td></tr>
-                            <tr class="border-b"><td class="p-2 pl-6 text-xs">130+ min</td><td class="p-2 text-right">175 pts</td></tr>
+                            <tr class="border-b"><td class="p-2 pl-6 text-xs">150+ min</td><td class="p-2 text-right">175 pts</td></tr>
                             <tr class="border-b"><td class="p-2 pl-6 text-xs">100 a 129 min</td><td class="p-2 text-right">122.5 pts</td></tr>
                             <tr class="border-b"><td class="p-2 pl-6 text-xs">80 a 99 min</td><td class="p-2 text-right">105 pts</td></tr>
                             <tr class="border-b"><td class="p-2 pl-6 text-xs">60 a 79 min</td><td class="p-2 text-right">87.5 pts</td></tr>
@@ -291,18 +291,18 @@
                             
                             <tr class="bg-gray-200"><td class="p-2 font-semibold" colspan="2">Meta de Força (Semanal)</td></tr>
                             <tr class="border-b"><td class="p-2 pl-6 text-xs">2 sessões</td><td class="p-2 text-right">105 pts</td></tr>
-                            <tr class="border-b"><td class="p-2 pl-6 text-xs">1 sessão</td><td class="p-2 text-right">21 pts</td></tr>
+                            <tr class="border-b"><td class="p-2 pl-6 text-xs">1 sessão</td><td class="p-2 text-right">40 pts</td></tr>
 
                             <tr class="bg-gray-200"><td class="p-2 font-semibold" colspan="2">Frutas/Vegetais (Diário)</td></tr>
-                            <tr class="border-b"><td class="p-2 pl-6 text-xs">5+ porções</td><td class="p-2 text-right">15 pts</td></tr>
-                            <tr class="border-b"><td class="p-2 pl-6 text-xs">4 porções</td><td class="p-2 text-right">9 pts</td></tr>
-                            <tr class="border-b"><td class="p-2 pl-6 text-xs">3 porções</td><td class="p-2 text-right">4.5 pts</td></tr>
-                            <tr class="border-b"><td class="p-2 pl-6 text-xs">2 porções</td><td class="p-2 text-right">3 pts</td></tr>
-                            <tr class="border-b"><td class="p-2 pl-6 text-xs">1 porção</td><td class="p-2 text-right">1.5 pts</td></tr>
+                            <tr class="border-b"><td class="p-2 pl-6 text-xs">5+ porções</td><td class="p-2 text-right">20 pts</td></tr>
+                            <tr class="border-b"><td class="p-2 pl-6 text-xs">4 porções</td><td class="p-2 text-right">12 pts</td></tr>
+                            <tr class="border-b"><td class="p-2 pl-6 text-xs">3 porções</td><td class="p-2 text-right">6 pts</td></tr>
+                            <tr class="border-b"><td class="p-2 pl-6 text-xs">2 porções</td><td class="p-2 text-right">4 pts</td></tr>
+                            <tr class="border-b"><td class="p-2 pl-6 text-xs">1 porção</td><td class="p-2 text-right">2 pts</td></tr>
 
                             <tr class="bg-gray-200"><td class="p-2 font-semibold" colspan="2">Outros (Diário)</td></tr>
                             <tr class="border-b"><td class="p-2 pl-6 text-xs">2L+ Água</td><td class="p-2 text-right">15 pts</td></tr>
-                            <tr class="border-b"><td class="p-2 pl-6 text-xs">Sem Doces/FastFood</td><td class="p-2 text-right">10 pts</td></tr>
+                            <tr class="border-b"><td class="p-2 pl-6 text-xs">Cuidado Alimentar</td><td class="p-2 text-right">16 pts</td></tr>
                             <tr class="border-b"><td class="p-2 pl-6 text-xs">7h+ Sono</td><td class="p-2 text-right">10 pts</td></tr>
                             <tr><td class="p-2 pl-6 text-xs">Cuidado Pessoal (cada)</td><td class="p-2 text-right">2 pts</td></tr>
                          </tbody>
@@ -422,7 +422,7 @@
         // --- HELPER FUNCTIONS ---
         // ATUALIZADO: Regras da Tabela da Planilha Original para v2
         const getAerobicScore = (minutes) => {
-            if (minutes >= 130) return 175;
+            if (minutes >= 150) return 175;
             if (minutes >= 100) return 122.5;
             if (minutes >= 80) return 105;
             if (minutes >= 60) return 87.5;
@@ -433,15 +433,15 @@
         };
         const getStrengthScore = (sessions) => {
             if (sessions >= 2) return 105;
-            if (sessions >= 1) return 21; // Ajustado conforme tabela original
+            if (sessions >= 1) return 40; 
             return 0;
         };
         const getFruitScore = (portions) => {
-            if (portions >= 5) return 15;
-            if (portions === 4) return 9;
-            if (portions === 3) return 4.5;
-            if (portions === 2) return 3;
-            if (portions === 1) return 1.5;
+            if (portions >= 5) return 20;
+            if (portions === 4) return 12;
+            if (portions === 3) return 6;
+            if (portions === 2) return 4;
+            if (portions === 1) return 2;
             return 0;
         };
         const getSelfCareScore = (activities) => activities.length * 2;
@@ -570,13 +570,13 @@
                 
                 let cleanEatingScore = 0;
                 if (inputs.cleanEating) {
-                    // Sem doces/refri = 10 pts (Se tudo marcado, consideraremos 10pts divididos ou regra simplificada: 2.5 cada ou 10 fixo?)
-                    // Regra: "Sem Doces/etc 10 pts" (geral). Vamos assumir que marcar tudo dá 10.
-                    // Para simplificar: Cada item vale 2.5 pts.
-                    cleanEatingScore += inputs.cleanEating.noSweets ? 2.5 : 0;
-                    cleanEatingScore += inputs.cleanEating.noSoda ? 2.5 : 0;
-                    cleanEatingScore += inputs.cleanEating.noFastFood ? 2.5 : 0;
-                    cleanEatingScore += inputs.cleanEating.noFried ? 2.5 : 0;
+                    // Sem doces/refri = 16 pts (Se tudo marcado, consideraremos 16pts divididos ou regra simplificada: 4 cada)
+                    // Regra: "Cuidado Alimentar 16 pts" (geral). Vamos assumir que marcar tudo dá 16.
+                    // Para simplificar: Cada item vale 4 pts.
+                    cleanEatingScore += inputs.cleanEating.noSweets ? 4 : 0;
+                    cleanEatingScore += inputs.cleanEating.noSoda ? 4 : 0;
+                    cleanEatingScore += inputs.cleanEating.noFastFood ? 4 : 0;
+                    cleanEatingScore += inputs.cleanEating.noFried ? 4 : 0;
                 }
 
                 weeklyAggregates[weekKey].dailyPoints += 
@@ -631,10 +631,10 @@
                     
                     let cleanEatingScore = 0;
                     if (inputs.cleanEating) {
-                        cleanEatingScore += inputs.cleanEating.noSweets ? 2.5 : 0;
-                        cleanEatingScore += inputs.cleanEating.noSoda ? 2.5 : 0;
-                        cleanEatingScore += inputs.cleanEating.noFastFood ? 2.5 : 0;
-                        cleanEatingScore += inputs.cleanEating.noFried ? 2.5 : 0;
+                        cleanEatingScore += inputs.cleanEating.noSweets ? 4 : 0;
+                        cleanEatingScore += inputs.cleanEating.noSoda ? 4 : 0;
+                        cleanEatingScore += inputs.cleanEating.noFastFood ? 4 : 0;
+                        cleanEatingScore += inputs.cleanEating.noFried ? 4 : 0;
                     }
 
                     allWeeklyData[weekKey][participantName].dailyPoints += 
