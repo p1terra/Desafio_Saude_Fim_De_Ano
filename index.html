@@ -398,7 +398,6 @@
         const weeklyChampionsModal = document.getElementById('weekly-champions-modal');
 
         // --- HELPER FUNCTIONS ---
-        // ATUALIZADO: Regras da Tabela da Planilha Original para v2
         const getAerobicScore = (minutes) => {
             if (minutes >= 150) return 175;
             if (minutes >= 100) return 122.5;
@@ -519,7 +518,6 @@
         
         const resetFormVisuals = () => {
              checkinForm.reset();
-             // Reset selectors to 0 visual state
              setSelectorValue(strengthOptions, 0);
              document.getElementById('strength-sessions').value = 0;
              setSelectorValue(fruitOptions, 0);
@@ -548,9 +546,6 @@
                 
                 let cleanEatingScore = 0;
                 if (inputs.cleanEating) {
-                    // Sem doces/refri = 16 pts (Se tudo marcado, consideraremos 16pts divididos ou regra simplificada: 4 cada)
-                    // Regra: "Cuidado Alimentar 16 pts" (geral). Vamos assumir que marcar tudo dá 16.
-                    // Para simplificar: Cada item vale 4 pts.
                     cleanEatingScore += inputs.cleanEating.noSweets ? 4 : 0;
                     cleanEatingScore += inputs.cleanEating.noSoda ? 4 : 0;
                     cleanEatingScore += inputs.cleanEating.noFastFood ? 4 : 0;
@@ -757,12 +752,11 @@
                 const selectedDate = new Date(dateVal + 'T12:00:00');
                 
                 // --- NOVA RESTRIÇÃO DE DATA ---
-                // Verifica se a data está fora do intervalo 01/12/2025 a 20/12/2025
                 if (selectedDate < challengeStartDate || selectedDate > challengeEndDate) {
                     confirmBtn.disabled = true;
                     confirmDetails.classList.add('hidden');
                     alert("Data não válida. Favor escolher uma data entre 01/12 a 20/12.");
-                    setupDate.value = ''; // Limpa a data inválida
+                    setupDate.value = '';
                     return;
                 }
 
@@ -857,10 +851,10 @@
             
             let cleanEatingPts = 0;
             if (dailyInputs.cleanEating) {
-                cleanEatingPts += dailyInputs.cleanEating.noSweets ? 2.5 : 0;
-                cleanEatingPts += dailyInputs.cleanEating.noSoda ? 2.5 : 0;
-                cleanEatingPts += dailyInputs.cleanEating.noFastFood ? 2.5 : 0;
-                cleanEatingPts += dailyInputs.cleanEating.noFried ? 2.5 : 0;
+                cleanEatingPts += dailyInputs.cleanEating.noSweets ? 4 : 0;
+                cleanEatingPts += dailyInputs.cleanEating.noSoda ? 4 : 0;
+                cleanEatingPts += dailyInputs.cleanEating.noFastFood ? 4 : 0;
+                cleanEatingPts += dailyInputs.cleanEating.noFried ? 4 : 0;
             }
 
             const dailySleepPts = dailyInputs.sleep ? 10 : 0;
@@ -887,7 +881,7 @@
                 <h3 class="font-bold mb-2 text-gray-700">Pontos do dia (${Math.round(dailyTotal)} pts):</h3>
                 ${createProgressBar('Frutas/Vegetais', dailyFruitPts, 20, 'green')}
                 ${createProgressBar('Hidratação', dailyHydrationPts, 15, 'sky')}
-                ${createProgressBar('Alimentação Limpa', cleanEatingPts, 15, 'red')}
+                ${createProgressBar('Cuidado Alimentar', cleanEatingPts, 16, 'red')}
                 ${createProgressBar('Sono', dailySleepPts, 10, 'indigo')}
                 ${createProgressBar('Cuidado Pessoal', dailySelfCarePts, 10, 'pink')}
             `;
